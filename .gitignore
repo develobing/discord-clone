@@ -1,0 +1,10 @@
+# Environment
+*.env
+
+# Libraries
+node_modules
+
+# Build
+build
+dist
+
