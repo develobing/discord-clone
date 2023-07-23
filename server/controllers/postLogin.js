@@ -7,15 +7,25 @@ const postLogin = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if user exists
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const user = await User.findOne({ email: email.toLowerCase() }).select(
+      '+password'
+    );
+
     if (!user)
-      return res.status(400).send('Invalid credentials. Please try again.');
+      return res.status(400).json({
+        isSuccess: false,
+        message: 'Invalid credentials. Please try again.',
+      });
 
     // Check if password is correct
     const isPasswordMatched = await bcrypt.compare(password, user?.password);
 
     if (!isPasswordMatched)
-      return res.status(400).send('Invalid credentials. Please try again.');
+      return res.status(400).json({
+        isSuccess: false,
+        message: 'Invalid credentials. Please try again.',
+      });
+    user.password = undefined;
 
     // Create JWT token
     const token = jwt.sign(

@@ -3,7 +3,7 @@ const router = express.Router();
 const authControllers = require('../controllers/authControllers');
 const auth = require('../middlewares/auth');
 const Joi = require('joi');
-const validator = require('express-joi-validation').createValidator({});
+const validator = require('../middlewares/validator');
 
 const registerSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -18,12 +18,12 @@ const loginSchema = Joi.object({
 
 router.post(
   '/register',
-  validator.body(registerSchema),
+  validator(registerSchema),
   authControllers.controllers.postRegister
 );
 router.post(
   '/login',
-  validator.body(loginSchema),
+  validator(loginSchema),
   authControllers.controllers.postLogin
 );
 

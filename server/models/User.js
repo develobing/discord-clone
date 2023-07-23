@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     max: 12,
     min: 6,
+    select: false,
   },
 
   username: {
