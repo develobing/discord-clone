@@ -8,6 +8,7 @@ export const authActions = {
 export const getActions = (dispatch) => ({
   login: async (user, history) => dispatch(login(user, history)),
   register: (user, history) => dispatch(register(user, history)),
+  setUserDetails: (user) => dispatch(setUserDetails(user)),
 });
 
 const setUserDetails = (user) => ({
