@@ -25,7 +25,7 @@ const login = (userInfo, navigate) => async (dispatch) => {
     if (isSuccess) {
       const { user, token } = data;
       localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('token', token);
       dispatch(setUserDetails(user));
       navigate('/dashboard');
     } else {

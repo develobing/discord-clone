@@ -28,13 +28,9 @@ const postLogin = async (req, res) => {
     user.password = undefined;
 
     // Create JWT token
-    const token = jwt.sign(
-      { userId: user._id, email },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '24h',
-      }
-    );
+    const token = jwt.sign({ _id: user._id, email }, process.env.JWT_SECRET, {
+      expiresIn: '24h',
+    });
 
     // Send response
     res.status(200).json({

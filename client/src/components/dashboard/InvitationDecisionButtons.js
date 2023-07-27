@@ -12,7 +12,7 @@ const InvitationDecisionButtons = ({
     <Box sx={{ display: 'flex' }}>
       <IconButton
         style={{ color: 'white' }}
-        dislabed={disabled}
+        dislabed={disabled.toString()}
         onClick={acceptInvitationHandler}
       >
         <CheckIcon />
@@ -20,7 +20,7 @@ const InvitationDecisionButtons = ({
 
       <IconButton
         style={{ color: 'white' }}
-        dislabed={disabled}
+        dislabed={disabled.toString()}
         onClick={rejectInvitationHandler}
       >
         <ClearIcon />

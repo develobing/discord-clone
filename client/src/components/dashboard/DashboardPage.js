@@ -7,6 +7,7 @@ import AppBar from './AppBar';
 import { logout } from '../../utils/auth';
 import { connect } from 'react-redux';
 import { getActions } from '../../store/actions/authActions';
+import { connectWithSocketServer } from '../../sockets/socketConnection';
 
 const Wrapper = styled('div')({
   width: '100%',
@@ -22,7 +23,9 @@ const DashboardPage = ({ setUserDetails }) => {
     if (!token || !user) {
       logout();
     } else {
-      setUserDetails(JSON.parse(user));
+      const userDetails = JSON.parse(user);
+      setUserDetails(userDetails);
+      connectWithSocketServer(userDetails, token);
     }
   }, []);
 

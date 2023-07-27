@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 require('dotenv').config();
 
+const socketServer = require('./socketServer');
+
 const PORT = process.env.PORT || process.env.API_PORT || 5005;
 
 const app = express();
@@ -23,6 +25,9 @@ const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
+
+// Socket Server
+socketServer.registerSocketServer(server);
 
 // DB Connection
 mongoose
