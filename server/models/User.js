@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema({
     max: 12,
     min: 3,
   },
+
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 });
 
 module.exports = mongoose.model('User', userSchema);
