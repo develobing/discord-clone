@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const authControllers = require('../controllers/authControllers');
-const auth = require('../middlewares/auth');
 const Joi = require('joi');
 const validator = require('../middlewares/validator');
 
@@ -21,12 +20,11 @@ router.post(
   validator(registerSchema),
   authControllers.controllers.postRegister
 );
+
 router.post(
   '/login',
   validator(loginSchema),
   authControllers.controllers.postLogin
 );
-
-router.get('/test', auth, (req, res) => res.send('Hello World'));
 
 module.exports = router;

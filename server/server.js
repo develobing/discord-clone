@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
+const friendsRoutes = require('./routes/friendsRoutes');
 require('dotenv').config();
 
 const socketServer = require('./socketServer');
@@ -19,6 +20,7 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/friends', friendsRoutes);
 
 // Server
 const server = http.createServer(app);

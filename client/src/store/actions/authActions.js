@@ -19,7 +19,7 @@ const setUserDetails = (user) => ({
 const login = (userInfo, navigate) => async (dispatch) => {
   try {
     const response = await api.login(userInfo);
-    const responseData = response.data;
+    const responseData = response.data || {};
     const { data, message, isSuccess } = responseData;
 
     if (isSuccess) {
@@ -29,8 +29,8 @@ const login = (userInfo, navigate) => async (dispatch) => {
       dispatch(setUserDetails(user));
       navigate('/dashboard');
     } else {
-      console.log('login() - message', message);
-      dispatch(openAlertMessage(message));
+      const errorMessage = message || 'Something went wrong!';
+      dispatch(openAlertMessage(errorMessage));
     }
   } catch (error) {
     console.log('login() - error', error);
@@ -40,7 +40,7 @@ const login = (userInfo, navigate) => async (dispatch) => {
 const register = (userInfo, navigate) => async (dispatch) => {
   try {
     const response = await api.register(userInfo);
-    const responseData = response.data;
+    const responseData = response.data || {};
     const { data, message, isSuccess } = responseData;
 
     if (isSuccess) {
@@ -50,8 +50,8 @@ const register = (userInfo, navigate) => async (dispatch) => {
       dispatch(setUserDetails(user));
       navigate('/dashboard');
     } else {
-      console.log('register() - message', message);
-      dispatch(openAlertMessage(message));
+      const errorMessage = message || 'Something went wrong!';
+      dispatch(openAlertMessage(errorMessage));
     }
   } catch (error) {
     console.log('register() - error', error);

@@ -32,6 +32,7 @@ export const login = async (data) => {
       : {
           data: {
             isSuccess: false,
+            message: 'Something went wrong!',
             error,
           },
         };
@@ -49,6 +50,7 @@ export const register = async (data) => {
       : {
           data: {
             isSuccess: false,
+            message: 'Something went wrong!',
             error,
           },
         };
@@ -56,8 +58,27 @@ export const register = async (data) => {
 };
 
 // Secure routes
+export const sendFriendInvitation = async (data) => {
+  try {
+    return await apiClient.post('/friends/invite', data);
+  } catch (error) {
+    checkResponseCode(error);
+
+    return error.response
+      ? error.response
+      : {
+          data: {
+            isSuccess: false,
+            message: 'Something went wrong!',
+            error,
+          },
+        };
+  }
+};
+
 const checkResponseCode = (error) => {
   const responseCode = error?.response?.status;
+  const isNotAuthroized = responseCode === 401 || responseCode === 403;
 
-  if (responseCode === 401 || responseCode === 403) logout();
+  if (isNotAuthroized) logout();
 };
