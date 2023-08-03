@@ -5,15 +5,15 @@ import { Box, IconButton } from '@mui/material';
 
 const InvitationDecisionButtons = ({
   disabled,
-  acceptInvitationHandler,
-  rejectInvitationHandler,
+  acceptFriendInvitation,
+  rejectFriendInvitation,
 }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <IconButton
         style={{ color: 'white' }}
         dislabed={disabled.toString()}
-        onClick={acceptInvitationHandler}
+        onClick={acceptFriendInvitation}
       >
         <CheckIcon />
       </IconButton>
@@ -21,7 +21,7 @@ const InvitationDecisionButtons = ({
       <IconButton
         style={{ color: 'white' }}
         dislabed={disabled.toString()}
-        onClick={rejectInvitationHandler}
+        onClick={rejectFriendInvitation}
       >
         <ClearIcon />
       </IconButton>

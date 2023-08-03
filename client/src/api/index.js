@@ -76,6 +76,42 @@ export const sendFriendInvitation = async (data) => {
   }
 };
 
+export const acceptFriendInvitation = async (data) => {
+  try {
+    return await apiClient.post('/friends/accept', data);
+  } catch (error) {
+    checkResponseCode(error);
+
+    return error.response
+      ? error.response
+      : {
+          data: {
+            isSuccess: false,
+            message: 'Something went wrong!',
+            error,
+          },
+        };
+  }
+};
+
+export const rejectFriendInvitation = async (data) => {
+  try {
+    return await apiClient.post('/friends/reject', data);
+  } catch (error) {
+    checkResponseCode(error);
+
+    return error.response
+      ? error.response
+      : {
+          data: {
+            isSuccess: false,
+            message: 'Something went wrong!',
+            error,
+          },
+        };
+  }
+};
+
 const checkResponseCode = (error) => {
   const responseCode = error?.response?.status;
   const isNotAuthroized = responseCode === 401 || responseCode === 403;

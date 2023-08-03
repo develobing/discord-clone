@@ -1,6 +1,7 @@
 const verifySocketToken = require('./middlewares/authSocket');
 const newConnectionHandler = require('./socketHandlers/newConnectionHandler');
 const disconnectHandler = require('./socketHandlers/disconnectHandler');
+const serverStore = require('./serverStore');
 
 const registerSocketServer = (server) => {
   const io = require('socket.io')(server, {
@@ -9,6 +10,12 @@ const registerSocketServer = (server) => {
       method: ['GET', 'POST', 'PUT', 'DELETE'],
     },
   });
+  serverStore.setSocketServerInstance(io);
+
+  const emitOnlineUsers = () => {
+    const onlineUsers = serverStore.getOnlineUsers();
+    io.emit('online-users', { onlineUsers });
+  };
 
   io.use((socket, next) => {
     verifySocketToken(socket, next);
@@ -18,12 +25,17 @@ const registerSocketServer = (server) => {
     console.log('New client connected - socket.id', socket.id);
 
     newConnectionHandler(socket, io);
+    emitOnlineUsers();
 
     socket.on('disconnect', () => {
       console.log('Client disconnected');
       disconnectHandler(socket);
     });
   });
+
+  setInterval(() => {
+    emitOnlineUsers();
+  }, 5 * 1000);
 };
 
 module.exports = { registerSocketServer };

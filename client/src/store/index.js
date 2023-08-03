@@ -5,15 +5,19 @@ import {
   applyMiddleware,
 } from 'redux';
 import thunk from 'redux-thunk';
-import authReducer from './reducers/authReducer';
 import alertReducer from './reducers/alertReducer';
+import authReducer from './reducers/authReducer';
+import friendsReducer from './reducers/friendsReducer';
 
 const rootReducer = combineReducers({
   alert: alertReducer,
   auth: authReducer,
+  friends: friendsReducer,
 });
 
-export const store = createStore(
+const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
+
+export default store;

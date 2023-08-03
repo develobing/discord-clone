@@ -3,7 +3,7 @@ import React from 'react';
 import Avatar from '../shared/Avatar';
 import OnlineIndicator from './OnlineIndicator';
 
-const FriendsListItem = ({ id, username, isOnline }) => {
+const FriendsListItem = ({ _id, username, isOnline }) => {
   return (
     <Button
       style={{
