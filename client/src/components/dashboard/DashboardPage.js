@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { styled } from '@mui/system';
 import SideBar from './SideBar';
 import FriendsSideBar from './FriendsSideBar';
-import Messenger from './Messenger';
+import Messenger from './messenger/Messenger';
 import AppBar from './AppBar';
 import { logout } from '../../utils/auth';
 import { connect } from 'react-redux';

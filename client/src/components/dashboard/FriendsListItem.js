@@ -2,8 +2,14 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import Avatar from '../shared/Avatar';
 import OnlineIndicator from './OnlineIndicator';
+import { chatTypes, getActions } from '../../store/actions/chatActions';
+import { connect } from 'react-redux';
 
-const FriendsListItem = ({ _id, username, isOnline }) => {
+const FriendsListItem = ({ _id, username, isOnline, setChosenChatDetails }) => {
+  const handleChooseActiveConversation = () => {
+    setChosenChatDetails({ _id, username }, chatTypes.DIRECT);
+  };
+
   return (
     <Button
       style={{
@@ -17,6 +23,7 @@ const FriendsListItem = ({ _id, username, isOnline }) => {
         color: 'black',
         position: 'relative',
       }}
+      onClick={handleChooseActiveConversation}
     >
       <Avatar username={username} isOnline={isOnline} />
       <Typography
@@ -32,4 +39,8 @@ const FriendsListItem = ({ _id, username, isOnline }) => {
   );
 };
 
-export default FriendsListItem;
+const mapActionsToProps = (dispatch) => ({
+  ...getActions(dispatch),
+});
+
+export default connect(null, mapActionsToProps)(FriendsListItem);
