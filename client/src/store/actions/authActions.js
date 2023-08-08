@@ -8,12 +8,12 @@ export const authActions = {
 export const getActions = (dispatch) => ({
   login: async (user, history) => dispatch(login(user, history)),
   register: (user, history) => dispatch(register(user, history)),
-  setUserDetails: (user) => dispatch(setUserDetails(user)),
+  setUserDetails: (userDetails) => dispatch(setUserDetails(userDetails)),
 });
 
-const setUserDetails = (user) => ({
+const setUserDetails = (userDetails) => ({
   type: authActions.SET_USER_DETAILS,
-  payload: user,
+  payload: userDetails,
 });
 
 const login = (userInfo, navigate) => async (dispatch) => {

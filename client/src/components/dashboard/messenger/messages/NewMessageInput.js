@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/system';
-import Avatar from '../../../shared/Avatar.js';
 import { connect } from 'react-redux';
+import { sendDirectMessage } from '../../../../sockets/socketConnection.js';
 
 const MainContainer = styled('div')({
   display: 'flex',
@@ -38,8 +38,14 @@ const NewMessageInput = ({ chosenChatDetails }) => {
   };
 
   const handleSendMessage = () => {
-    console.log('handleSendMessage() - message', message);
     setMessage('');
+
+    if (message.trim() === '') return;
+
+    sendDirectMessage({
+      receiverUserId: chosenChatDetails?._id,
+      content: message,
+    });
   };
 
   return (

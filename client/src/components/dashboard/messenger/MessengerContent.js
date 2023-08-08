@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { styled } from '@mui/material';
 import Messages from './messages/Messages.js';
 import NewMessageInput from './messages/NewMessageInput.js';
+import { getDirectChatHistory } from '../../../sockets/socketConnection.js';
 
 const Wrapper = styled('div')({
   flexGrow: 1,
@@ -9,7 +10,9 @@ const Wrapper = styled('div')({
 
 const MessengerContent = ({ chosenChatDetails }) => {
   useEffect(() => {
-    // TODO: Fetch messages
+    getDirectChatHistory({
+      receiverUserId: chosenChatDetails._id,
+    });
   }, [chosenChatDetails]);
 
   return (
