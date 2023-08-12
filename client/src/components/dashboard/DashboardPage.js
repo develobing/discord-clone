@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { styled } from '@mui/system';
-import SideBar from './SideBar';
+import SideBar from './sidebar/SideBar';
 import FriendsSideBar from './FriendsSideBar';
 import Messenger from './messenger/Messenger';
 import AppBar from './AppBar';
@@ -8,6 +8,7 @@ import { logout } from '../../utils/auth';
 import { connect } from 'react-redux';
 import { getActions } from '../../store/actions/authActions';
 import { connectWithSocketServer } from '../../sockets/socketConnection';
+import Room from './room/Room';
 
 const Wrapper = styled('div')({
   width: '100%',
@@ -15,7 +16,7 @@ const Wrapper = styled('div')({
   display: 'flex',
 });
 
-const DashboardPage = ({ setUserDetails }) => {
+const DashboardPage = ({ isUserInRoom, setUserDetails }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
@@ -35,9 +36,14 @@ const DashboardPage = ({ setUserDetails }) => {
       <FriendsSideBar />
       <Messenger />
       <AppBar />
+      {isUserInRoom && <Room />}
     </Wrapper>
   );
 };
+
+const mapStateToProps = ({ room }) => ({
+  ...room,
+});
 
 const mapActionsToProps = (dispatch) => {
   return {
@@ -45,4 +51,4 @@ const mapActionsToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapActionsToProps)(DashboardPage);
+export default connect(mapStateToProps, mapActionsToProps)(DashboardPage);

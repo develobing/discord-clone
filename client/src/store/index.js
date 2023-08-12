@@ -9,12 +9,14 @@ import alertReducer from './reducers/alertReducer';
 import authReducer from './reducers/authReducer';
 import friendsReducer from './reducers/friendsReducer';
 import chatReducer from './reducers/chatReducers';
+import roomReducer from './reducers/roomReducer';
 
 const rootReducer = combineReducers({
   alert: alertReducer,
   auth: authReducer,
   friends: friendsReducer,
   chat: chatReducer,
+  room: roomReducer,
 });
 
 const store = createStore(

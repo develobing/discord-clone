@@ -1,5 +1,6 @@
 const serverStore = require('../serverStore');
 const friendsUpdate = require('./updates/friends');
+const roomsUpdate = require('./updates/rooms');
 
 const newConnectionHandler = async (socket, io) => {
   const userDetails = socket.user;
@@ -15,6 +16,9 @@ const newConnectionHandler = async (socket, io) => {
 
   // Update friends list
   friendsUpdate.updateFriends(_userId);
+
+  // Update rooms list
+  roomsUpdate.updateRooms(socket.id);
 };
 
 module.exports = newConnectionHandler;
