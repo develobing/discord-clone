@@ -3,12 +3,24 @@ import {
   setOpenRoom,
   setRoomDetails,
   setActiveRooms,
-} from '../store/reducers/roomActions';
+  setLocalStream,
+  setScreenSharingStream,
+  setRemoteStreams,
+  setIsUserJoinedWithOnlyAudio,
+} from '../store/actions/roomActions';
 import * as socketConnection from '../sockets/socketConnection';
+import * as webRTCHandler from '../webRTC/webRTCHandler';
 
 export const createNewRoom = () => {
-  store.dispatch(setOpenRoom(true, true));
-  socketConnection.createNewRoom();
+  const successCallback = () => {
+    const audioOnly = store.getState().room.audioOnly;
+    store.dispatch(setOpenRoom(true, true));
+    store.dispatch(setIsUserJoinedWithOnlyAudio(audioOnly));
+    socketConnection.createNewRoom();
+  };
+
+  const audioOnly = store.getState().room.audioOnly;
+  webRTCHandler.getLocalStreamPreview(audioOnly, successCallback);
 };
 
 export const newRoomCreated = (data) => {
@@ -45,13 +57,36 @@ export const updateActiveRooms = (data) => {
 };
 
 export const joinRoom = (roomId) => {
-  store.dispatch(setRoomDetails({ roomId }));
-  store.dispatch(setOpenRoom(false, true));
-  socketConnection.joinRoom({ roomId });
+  const successCallback = () => {
+    const audioOnly = store.getState().room.audioOnly;
+    store.dispatch(setRoomDetails({ roomId }));
+    store.dispatch(setOpenRoom(false, true));
+    store.dispatch(setIsUserJoinedWithOnlyAudio(audioOnly));
+    socketConnection.joinRoom({ roomId });
+  };
+
+  const audioOnly = store.getState().room.audioOnly;
+  webRTCHandler.getLocalStreamPreview(audioOnly, successCallback);
 };
 
 export const leaveRoom = () => {
   const roomId = store.getState().room.roomDetails.roomId;
+  const localStream = store.getState().room.localStream;
+  const screenSharingStream = store.getState().room.screenSharingStream;
+
+  if (localStream) {
+    localStream.getTracks().forEach((track) => track.stop());
+    store.dispatch(setLocalStream(null));
+  }
+
+  if (screenSharingStream) {
+    screenSharingStream.getTracks().forEach((track) => track.stop());
+    store.dispatch(setScreenSharingStream(null));
+  }
+
+  store.dispatch(setRemoteStreams([]));
+  webRTCHandler.clearAllConnections();
+
   socketConnection.leaveRoom({ roomId });
   store.dispatch(setRoomDetails(null));
   store.dispatch(setOpenRoom(false, false));

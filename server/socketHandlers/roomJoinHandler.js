@@ -10,6 +10,7 @@ const roomJoinHandler = (socket, data) => {
   const participantDetails = {
     _userId,
     username,
+    socketId: socket.id,
   };
 
   const roomDetails = serverStore.getActiveRoom(roomId);
@@ -20,8 +21,17 @@ const roomJoinHandler = (socket, data) => {
 
   serverStore.joinActiveRoom(roomId, participantDetails);
 
+  // Send information to the users in the room that they should prepare for incoming connection
+  roomDetails.participants.forEach((participant) => {
+    const { socketId } = participant;
+    if (socketId === participantDetails.socketId) return;
+
+    socket.to(socketId).emit('conn-prepare', {
+      connUserSocketId: participantDetails.socketId,
+    });
+  });
+
   roomsUpdates.updateRooms();
-  console.log('roomJoinHandler() - roomDetails', roomDetails);
 };
 
 module.exports = roomJoinHandler;

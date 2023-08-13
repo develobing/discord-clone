@@ -66,9 +66,7 @@ const addNewActiveRoom = (userId, socketId) => {
       },
     ],
   };
-
   activeRooms = [...activeRooms, newActiveRoom];
-  console.log('activeRooms', activeRooms);
 
   return newActiveRoom;
 };
@@ -77,7 +75,7 @@ const getActiveRooms = () => [...activeRooms];
 
 const getActiveRoom = (roomId) => {
   const activeRoom = activeRooms.find((room) => room.roomId === roomId);
-  return { ...activeRoom };
+  return activeRoom ? { ...activeRoom } : null;
 };
 
 const joinActiveRoom = (roomId, newParticipant) => {

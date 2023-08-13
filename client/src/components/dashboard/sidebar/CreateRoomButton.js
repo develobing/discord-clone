@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import * as roomHandler from '../../../webRTC/roomHandler';
 
-const CreateRoomButton = () => {
+const CreateRoomButton = ({ isUserInRoom }) => {
   const createNewRoomHandler = () => {
     // Creating a room and shending info to the server
     roomHandler.createNewRoom();
@@ -11,6 +11,7 @@ const CreateRoomButton = () => {
 
   return (
     <Button
+      disabled={isUserInRoom}
       style={{
         width: '48px',
         height: '48px',
